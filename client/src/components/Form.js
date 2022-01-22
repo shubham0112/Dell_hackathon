@@ -55,8 +55,6 @@ const Form = () => {
                 </div>
             </form>
 
-            <hr />
-
             {
                 flag && <Result/>
             }
