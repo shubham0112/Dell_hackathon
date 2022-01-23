@@ -2,6 +2,8 @@ from flask import Flask
 from flask_cors import CORS
 from flask import request
 
+from helpers import helper
+
 app = Flask(__name__)
 
 CORS(app)
@@ -11,13 +13,15 @@ CORS(app)
 def members():
     # val is list
     val=request.json
-    print(type(val))
-    print(val)
-    # processing
+    # print(type(val))
+    # print(val)
+
+    ans=helper(val) #array
+
     return {
-        "member1":"1",
-        "member2":"2",
-        "member3":"3",
+        # "data": [ {"sales_order_number":"1234","service_tag_filename":"293uhru.zip","received_date":"random","mac_address":"afa49220"},{"sales_order_number":"1","service_tag_filename":"2u4ru.zip","received_date":"arg","mac_address":"ajfn88"},{"sales_order_number":"1","service_tag_filename":"2u4ru.zip","received_date":"arg","mac_address":"ajfn88"}] 
+
+        "data":ans
     }
 
 if __name__ == "__main__":
