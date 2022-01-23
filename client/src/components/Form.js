@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import Result from './Result';
+import './Form.css';
 
 const Form = () => {
     const [val,setVal]=useState([]);
@@ -34,9 +35,11 @@ const Form = () => {
     return ( 
         <>
             <form action="" onSubmit={handleSubmit} >
-                <div>
-                    <label htmlFor="serviceTag">Service Tag : </label>
-                    <input 
+                <div className='container'>
+                    <label className='sub1' htmlFor="serviceTag">Service Tag : </label>
+                    <input
+                        className='sub2'
+                        placeholder='Search...'
                         type="textarea"
                         id='serviceTag'
                         name='serviceTag'
@@ -44,8 +47,12 @@ const Form = () => {
                         onChange={(e)=>setVal(e.target.value.split(","))}
                     />
                 </div>
-                <button type='submit' >Search</button>
-                <button type='button' onClick={handleClear} >Clear</button>
+                <p className='note' >*Use comma(,) for multiple Service Tags without spaces</p>
+
+                <div className='btn' >
+                    <button className='btn1' type='submit' >Search</button>
+                    <button className='btn2' type='button' onClick={handleClear} >Clear</button>
+                </div>
             </form>
 
             {
