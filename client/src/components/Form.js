@@ -39,23 +39,30 @@ const Form = () => {
         <>
             <form action="" onSubmit={handleSubmit} >
                 <div className='container'>
-                    <label className='sub1' htmlFor="serviceTag">Service Tag : </label>
+                    {/* <label className='sub1' htmlFor="serviceTag">Service Tag : </label> */}
                     <input
                         className='sub2'
-                        placeholder='Search...'
-                        type="textarea"
+                        placeholder='Enter Service Tag'
+                        type="search" 
                         id='serviceTag'
                         name='serviceTag'
                         value={val}
                         onChange={(e)=>setVal(e.target.value.split(","))}
                     />
+                    <div class="search">
+                    </div>
                 </div>
-                <p className='note' >*Use comma(,) for multiple Service Tags without spaces</p>
 
-                <div className='btn' >
+                <div class="round">
+                        <a class="button" onClick={handleClear}>Clear All</a>
+                </div>
+
+                {/* <p className='note' >*Use comma(,) for multiple Service Tags without spaces</p> */}
+
+                {/* <div className='btn' >
                     <button className='btn1' type='submit' >Search</button>
                     <button className='btn2' type='button' onClick={handleClear} >Clear</button>
-                </div>
+                </div> */}
             </form>
 
             {
