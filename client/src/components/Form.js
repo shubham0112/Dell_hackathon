@@ -4,6 +4,7 @@ import './Form.css';
 
 const Form = () => {
     const [val,setVal]=useState([]);
+    const [output,setOutput]=useState([]);
     const [flag,setFlag]=useState(false);
     const handleSubmit=(e)=>{
         e.preventDefault();
@@ -19,7 +20,9 @@ const Form = () => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Success:', data);
+            // console.log('Success:', data['data']);
+            setOutput(data['data']);
+            // console.log('Success2:', output);
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -56,7 +59,7 @@ const Form = () => {
             </form>
 
             {
-                flag && <Result/>
+                flag && <Result output={output} />
             }
         </>
     );

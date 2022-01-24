@@ -1,16 +1,18 @@
 import React,{useMemo} from 'react';
 import {useTable} from "react-table";
 import {COLUMNS} from "./columns.js";
-import MOCK_DATA from "../MOCK_DATA.json";
+// import MOCK_DATA from "../MOCK_DATA.json";
 import "./Result.css"
 
-const Result = () => {
-  const data=useMemo(()=>MOCK_DATA,[]);
+const Result = ({output}) => {
+  // console.log("inside result.js",output);
+  // const data=useMemo(()=>output,[]);
   const columns=useMemo(()=>COLUMNS,[]);
+  // console.log("inside result.js",data);
 
   const tableInstance=useTable({
     columns:columns,
-    data:data
+    data:output
   })
 
   // these are functions and arrays provided by useTable hook
