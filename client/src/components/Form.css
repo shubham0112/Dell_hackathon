@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Inconsolata:700');
 
+form{
+  display: flex;
+  flex-direction: column ;
+}
 
 .container{
   position: absolute;
@@ -13,7 +17,7 @@
 }
 .search {
   position: absolute;
-  margin: auto;
+  margin: 40px auto;
   top: 0;
   right: 0;
   bottom: 0;
@@ -64,7 +68,7 @@
 input {
   font-family: 'Inconsolata', monospace;
   position: absolute;
-  margin: auto;
+  margin: 50px auto;
   top: 0;
   right: 0;
   bottom: 0;
@@ -129,12 +133,16 @@ a {
 }
 .round {
 		max-width: 960px;
-		margin-top: 20px;
-    margin-left: 680px;
+		/* margin-top: 20px;
+		margin-bottom: 20px; */
+    margin: 20px auto;
 }
 .round a {
   color: crimson;
   text-align: center;
+}
+.round:hover{
+  cursor: pointer;
 }
 .round .button {
   display: inline-block;

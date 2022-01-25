@@ -31,7 +31,7 @@ def helper(zip_arr):
                     parent_dir = "F:\DELL-RAW"
                     # New Folder Path
                     path = os.path.join(parent_dir, new_dir)
-                    os.mkdir(path)
+                    os.makedirs(path,exist_ok=True)
 
                     with zipfile.ZipFile(os.path.join(target_dir, search_zip)) as zip_file:
                         #iterating all xml files inside that zip
@@ -54,9 +54,10 @@ def helper(zip_arr):
                             # Passing the stored data inside the beautifulsoup parser 
                             bs_data = BeautifulSoup(data, 'xml')
                             b_id = bs_data.find('ID') 
-                            if(b_id.text != search):
+                            # print(b_id)
+                            if((b_id is not None) and (b_id.text != search)):
                                 os.remove(os.path.join(path,filename))
-                            if(b_id.text == search):
+                            if((b_id is not None) and (b_id.text == search)):
                                 found=True
                                 temp={"sales_order_number":"None",
                                     "mac_address":"None",
