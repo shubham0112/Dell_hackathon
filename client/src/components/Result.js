@@ -25,7 +25,9 @@ const Result = ({output}) => {
   } = tableInstance
 
   return <>
-    <table {...getTableProps()} >
+   <div class="result">
+   <label class = "res_header">RESULT TABLE</label>
+   <table {...getTableProps()} >
       <thead>
         {headerGroups.map((headerGroup)=>(
           <tr {...headerGroup.getHeaderGroupProps()} >
@@ -55,6 +57,7 @@ const Result = ({output}) => {
         }
       </tbody>
     </table> 
+   </div>
   </>
 }
 

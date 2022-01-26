@@ -38,33 +38,30 @@ const Form = () => {
     return ( 
         <>
             <form action="" onSubmit={handleSubmit} >
-                <div className='container'>
-                    {/* <label className='sub1' htmlFor="serviceTag">Service Tag : </label> */}
-                    <input
-                        className='sub2'
-                        placeholder='Enter Service Tag'
-                        type="search" 
-                        id='serviceTag'
-                        name='serviceTag'
-                        value={val}
-                        onChange={(e)=>setVal(e.target.value.split(","))}
-                    />
-                    <div class="search">
+                <label>SAASTR - SEARCH</label>
+                <div class="Card">
+                    <div class="CardInner">
+                        <div class="container">
+                            <div class="Icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#657789" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            </div>
+                            <div class="InputContainer">
+                                <input 
+                                    placeholder="Search for the Service Tag"
+                                    type="search" 
+                                    id='serviceTag'
+                                    name='serviceTag'
+                                    value={val}
+                                    onChange={(e)=>setVal(e.target.value.split(","))}
+                                />
+                            </div>
+                            <div class="Icon">
+                                <a class="button clear" onClick={handleClear}>Clear All</a>
+                             </div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="round">
-                        <a class="button" onClick={handleClear}>Clear All</a>
-                </div>
-
-                {/* <p className='note' >*Use comma(,) for multiple Service Tags without spaces</p> */}
-
-                {/* <div className='btn' >
-                    <button className='btn1' type='submit' >Search</button>
-                    <button className='btn2' type='button' onClick={handleClear} >Clear</button>
-                </div> */}
             </form>
-
             {
                 flag && <Result output={output} />
             }
@@ -73,3 +70,5 @@ const Form = () => {
 }
 
 export default Form;
+
+
