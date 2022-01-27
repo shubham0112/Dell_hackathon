@@ -105,8 +105,8 @@ from lxml import etree
 
 def helper(zip_arr):
     # FIND ZIP CODE
-    my_zip = r"D:\ZipFiles.zip"
-    target_dir = "D:\DELL-RAW\Zip-folder"
+    my_zip = r"F:\ZipFiles.zip"
+    target_dir = "F:\DELL-RAW\Zip-folder"
     with zipfile.ZipFile(my_zip,"r") as zip_ref:
         zip_ref.extractall(target_dir)
     # my_zip = r"F:\DELL-RAW\mNewfolder.zip"
@@ -127,7 +127,7 @@ def helper(zip_arr):
                     new_dir = search
 
                     # Parent Directory path
-                    parent_dir = "D:\DELL-RAW"
+                    parent_dir = "F:\DELL-RAW"
                     # New Folder Path
                     path = os.path.join(parent_dir, new_dir)
                     os.makedirs(path,exist_ok=True)

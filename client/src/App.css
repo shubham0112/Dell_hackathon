@@ -1,11 +1,12 @@
 *{
     margin: 0px;
-    padding: 0px;
+    padding: 3px;
     box-sizing: border-box;
     font-family: Avenir-Roman, sans-serif;
 }
 body{
     /* background: #f2f2f2; */
-    background: #ffffff;
+    /* background: #ffffff; */
+    /* background: #bcccff; */
     font-family: 'Open Sans', sans-serif;
 }
