@@ -3,11 +3,12 @@ from pickle import FALSE
 import shutil
 import zipfile
 from bs4 import BeautifulSoup 
+from lxml import etree
 
 def helper(zip_arr):
     # FIND ZIP CODE
-    my_zip = r"F:\ZipFiles.zip"
-    target_dir = "F:\DELL-RAW\Zip-folder"
+    my_zip = r"D:\ZipFiles.zip"
+    target_dir = "D:\DELL-RAW\Zip-folder"
     with zipfile.ZipFile(my_zip,"r") as zip_ref:
         zip_ref.extractall(target_dir)
     # my_zip = r"F:\DELL-RAW\mNewfolder.zip"
@@ -28,7 +29,7 @@ def helper(zip_arr):
                     new_dir = search
 
                     # Parent Directory path
-                    parent_dir = "F:\DELL-RAW"
+                    parent_dir = "D:\DELL-RAW"
                     # New Folder Path
                     path = os.path.join(parent_dir, new_dir)
                     os.makedirs(path,exist_ok=True)
@@ -48,16 +49,19 @@ def helper(zip_arr):
                             # print(os.path.join(path,filename))
                             with source, target:
                                 shutil.copyfileobj(source, target) #extraction
-                            with open(os.path.join(path,filename), 'r') as f:
-                                data = f.read()
-                            
-                            # Passing the stored data inside the beautifulsoup parser 
-                            bs_data = BeautifulSoup(data, 'xml')
-                            b_id = bs_data.find('ID') 
-                            # print(b_id)
-                            if((b_id is not None) and (b_id.text != search)):
+                            bhagwaan = os.path.join(path,filename).replace('\\','/')
+                            flag = os.path.getsize(bhagwaan)
+                            if( flag == 0 ):
+                                continue
+                            catalog = etree.parse(bhagwaan)
+                            # print(catalog)
+                            bs_data = catalog.find('book')
+                            b_id=bs_data.find('SERVICETAG')
+                            if(b_id is not None) and (b_id.text != search):
                                 os.remove(os.path.join(path,filename))
-                            if((b_id is not None) and (b_id.text == search)):
+                                continue
+                            if(b_id is not None) and (b_id.text == search):
+                                #printing for each service tag found
                                 found=True
                                 temp={"sales_order_number":"None",
                                     "mac_address":"None",
@@ -85,7 +89,10 @@ def helper(zip_arr):
 
                                 ans.append(temp)
                                 break
-            if( found is False):
-                ans.append({"sales_order_number":"...","service_tag_filename":"Service Tag - "+ser_tag+" Not Found","received_date":"...","mac_address":"..."})
+        if(zip_found is False):
+            ans.append({"sales_order_number":"...","service_tag_filename":"Service Tag - "+ser_tag+" not Found","received_date":"...","mac_address":"..."})
+            break
+        if( found is False):
+            ans.append({"sales_order_number":"...","service_tag_filename":"Service Tag - "+ser_tag+" Not Found","received_date":"...","mac_address":"..."})
 
     return ans
