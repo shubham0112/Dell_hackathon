@@ -1,196 +1,135 @@
-# import os
-# from pickle import FALSE
-# import shutil
-# import zipfile
-# from bs4 import BeautifulSoup
-# from lxml import etree
-
-# def helper(zip_arr):
-#     # FIND ZIP CODE
-#     my_zip = r"F:\ZipFiles.zip"
-#     target_dir = "F:\DELL-RAW\Zip-folder"
-#     with zipfile.ZipFile(my_zip,"r") as zip_ref:
-#         zip_ref.extractall(target_dir)
-#     # my_zip = r"F:\DELL-RAW\mNewfolder.zip"
-
-#     ans=[]
-#     for ser_tag in zip_arr:
-#         search_zip = ser_tag + ".zip"
-#         zip_found = False
-#         found = False
-#         with zipfile.ZipFile(my_zip) as zip_file:
-#             #iterating all zip files
-#             for member in zip_file.namelist():
-#                 filename = os.path.basename(member)
-#                 if( filename == search_zip ): #required zip found
-#                     zip_found = True
-#                     # my_zip
-#                     search = ser_tag #id name aayega idhar
-#                     new_dir = ser_tag
-
-#                     # Parent Directory path
-#                     parent_dir = "F:\DELL-RAW"
-#                     # New Folder Path
-#                     path = os.path.join(parent_dir, new_dir)
-#                     os.makedirs(path,exist_ok=True)
-
-#                     with zipfile.ZipFile(os.path.join(target_dir, search_zip)) as zip_file:
-#                         #iterating all xml files inside that zip
-#                         for member in zip_file.namelist():
-#                             # raw.xml or another.xml
-#                             filename = os.path.basename(member)
-#                             # skip directories
-#                             if not filename:
-#                                 continue
-                            
-#                             # copy file (taken from zipfile's extract)
-#                             source = zip_file.open(member)
-#                             target = open(os.path.join(path,filename), "wb")
-#                             # print(os.path.join(path,filename))
-#                             with source, target:
-#                                 shutil.copyfileobj(source, target) #extraction
-#                             with open(os.path.join(path,filename), 'r') as f:
-#                                 data = f.read()
-                            
-#                             # Passing the stored data inside the beautifulsoup parser 
-#                             bs_data = BeautifulSoup(data, 'xml')
-#                             b_id = bs_data.find('ID') 
-#                             # print(b_id)
-#                             if((b_id is not None) and (b_id.text != search)):
-#                                 os.remove(os.path.join(path,filename))
-#                             if((b_id is not None) and (b_id.text == search)):
-#                                 found=True
-#                                 temp={"sales_order_number":"None",
-#                                     "mac_address":"None",
-#                                     "received_date":"None",
-#                                     "service_tag_filename":"None"
-#                                 }
-
-#                                 catalog = etree.parse(data)
-#                                 book = catalog.find('book')
-
-#                                 '''
-#                                 # Finding all instances of tag   
-#                                 b_sales = bs_data.find('SALESORDNO') 
-#                                 if(b_sales is not None):
-#                                     temp["sales_order_number"]=b_sales.text
-                                
-#                                 # Using find() to extract attributes of the first instance of the tag 
-#                                 b_mac = bs_data.find('MACADD') 
-#                                 if(b_mac is not None):
-#                                     temp["mac_address"]=b_mac.text
-
-#                                 # Extracting the data stored in a specific attribute of the `child` tag 
-#                                 b_rec = bs_data.find('RECEIVEDDATE') 
-#                                 if(b_rec is not None):
-#                                     temp["received_date"]=b_rec.text
-                                
-#                                 # b_id = bs_data.find('ID') 
-#                                 temp["service_tag_filename"]=b_id.text
-#                                 '''
-
-#                                 ans.append(temp)
-#                                 break
-#             if( found is False):
-#                 ans.append({"sales_order_number":"...","service_tag_filename":"Service Tag - "+ser_tag+" Not Found","received_date":"...","mac_address":"..."})
-
-#     return ans
-
 import os
 from pickle import FALSE
 import shutil
 import zipfile
 from bs4 import BeautifulSoup 
 from lxml import etree
+from timeit import default_timer as timer
+
+def parse_xml_file_rec(f_path,id):
+    # recursive approach
+    temp={"sales_order_number":"None",
+        "mac_address":"None",
+        "received_date":"None",
+        "service_tag_filename":"None"
+    }
+    found=False
+    root = etree.parse(f_path) # element tree
+    for nbr in root.iter():
+        if not len(nbr):
+            if nbr.tag=="SERVICETAG":
+                if nbr.text != id:
+                    found=False
+                    return temp,found
+                else:
+                    found=True
+                    temp["service_tag_filename"]=nbr.text
+            if (nbr.tag=="SALESORDNO") and (nbr.text is not None):
+                    temp["sales_order_number"]=nbr.text
+            if (nbr.tag=="MACADD") and (nbr.text is not None):
+                    temp["mac_address"]=nbr.text
+            if (nbr.tag=="RECEIVEDDATE") and (nbr.text is not None):
+                    temp["received_date"]=nbr.text
+
+    return temp,found
+
+
+def parse_xml_file(f_path,id):
+    # find approach
+    temp={"sales_order_number":"None",
+        "mac_address":"None",
+        "received_date":"None",
+        "service_tag_filename":"None"
+    }
+
+    found=False
+    root = etree.parse(f_path) # element tree
+
+    val=root.find(".//SERVICETAG")
+    if val is None or val.text != id:
+        return temp,found
+    else:
+        found=True
+        temp["service_tag_filename"]=val.text
+
+    val=root.find(".//SALESORDNO")
+    if val is not None and val.text is not None:
+        temp["sales_order_number"]=val.text
+
+    val=root.find(".//MACADD")
+    if val is not None and val.text is not None:
+        temp["mac_address"]=val.text
+
+    val=root.find(".//RECEIVEDDATE")
+    if val is not None and val.text is not None:
+        temp["received_date"]=val.text
+        
+    return temp,found
+
 
 def helper(zip_arr):
-    # FIND ZIP CODE
-    my_zip = r"F:\ZipFiles.zip"
-    target_dir = "F:\DELL-RAW\Zip-folder"
-    with zipfile.ZipFile(my_zip,"r") as zip_ref:
-        zip_ref.extractall(target_dir)
-    # my_zip = r"F:\DELL-RAW\mNewfolder.zip"
-
+    
+    zFiles_path = r"F:/ZipFiles"
+    par_dir = r"F:/DELL-RAW"
     ans=[]
-    for ser_tag in zip_arr:
-        search_zip = ser_tag + ".zip"
-        zip_found = False
-        found = False
-        with zipfile.ZipFile(my_zip) as zip_file:
-            #iterating all zip files
-            for member in zip_file.namelist():
-                filename = os.path.basename(member)
-                if( filename == search_zip ): #required zip found
-                    zip_found = True
-                    # my_zip
-                    search = ser_tag #id name aayega idhar
-                    new_dir = search
 
-                    # Parent Directory path
-                    parent_dir = "F:\DELL-RAW"
-                    # New Folder Path
-                    path = os.path.join(parent_dir, new_dir)
-                    os.makedirs(path,exist_ok=True)
-
-                    with zipfile.ZipFile(os.path.join(target_dir, search_zip)) as zip_file:
-                        #iterating all xml files inside that zip
-                        for member in zip_file.namelist():
-                            # raw.xml or another.xml
+    timer_start = timer()
+    
+    for root,dirs,files in os.walk(zFiles_path):
+            for id in zip_arr:
+                zip_found = False
+                for file in files:
+                    
+                    #file: Zip file(inside Main zip files folder)  name with extension .zip
+                    #id: Zip name inside zip_arr without extension .zip
+                    #z_filename: Zip file(inside Main zip files folder)  name without extension .zip
+                    
+                    z_filename = os.path.splitext(file)[0]
+                    if(z_filename == id):
+                        zip_found = True
+                        # print("Zip found: ", file)
+                        #z_path: Absolute path of the zip file we found from the main zip file folder
+                        z_path = os.path.join(zFiles_path,file).replace('\\','/')
+                        
+                        #zip: name required to enter into a particular zip file
+                        zip = zipfile.ZipFile(z_path)
+                        for member in zip.namelist():
+                            
+                            #member: absolute file path from the found zip file upto the subdirectory / file inside that zip
+                            #filename: Name of the XML file
                             filename = os.path.basename(member)
-                            # skip directories
+                            
+                            #skip directories
                             if not filename:
                                 continue
                             
-                            # copy file (taken from zipfile's extract)
-                            source = zip_file.open(member)
-                            target = open(os.path.join(path,filename), "wb")
-                            # print(os.path.join(path,filename))
+                            #if it's an XML File
+                            #path: path of new folders created with their respective names(ID named folders) 
+                            path = os.path.join(par_dir, id).replace('\\','/')
+                            os.makedirs(path,exist_ok=True)
+                            source = zip.open(member)
+                            f_path = os.path.join(path,filename).replace('\\','/')
+                            target = open(f_path, "wb")
+                            
+                            #To read each file, first extraction is needed to each folder
                             with source, target:
                                 shutil.copyfileobj(source, target) #extraction
-                            bhagwaan = os.path.join(path,filename).replace('\\','/')
-                            flag = os.path.getsize(bhagwaan)
-                            if( flag == 0 ):
-                                continue
-                            catalog = etree.parse(bhagwaan)
-                            # print(catalog)
-                            bs_data = catalog.find('book')
-                            b_id=bs_data.find('SERVICETAG')
-                            if(b_id is not None) and (b_id.text != search):
-                                os.remove(os.path.join(path,filename))
-                                continue
-                            if(b_id is not None) and (b_id.text == search):
-                                #printing for each service tag found
-                                found=True
-                                temp={"sales_order_number":"None",
-                                    "mac_address":"None",
-                                    "received_date":"None",
-                                    "service_tag_filename":"None"
-                                }
-
-                                # Finding all instances of tag   
-                                b_sales = bs_data.find('SALESORDNO') 
-                                if(b_sales is not None):
-                                    temp["sales_order_number"]=b_sales.text
-                                
-                                # Using find() to extract attributes of the first instance of the tag 
-                                b_mac = bs_data.find('MACADD') 
-                                if(b_mac is not None):
-                                    temp["mac_address"]=b_mac.text
-
-                                # Extracting the data stored in a specific attribute of the `child` tag 
-                                b_rec = bs_data.find('RECEIVEDDATE') 
-                                if(b_rec is not None):
-                                    temp["received_date"]=b_rec.text
-                                
-                                # b_id = bs_data.find('ID') 
-                                temp["service_tag_filename"]=b_id.text
-
+                            
+                            #Content Reading inside each file
+                            # find approach
+                            temp,found = parse_xml_file(f_path,id)
+                            if found:
                                 ans.append(temp)
                                 break
-        if(zip_found is False):
-            ans.append({"sales_order_number":"...","service_tag_filename":"Service Tag - "+ser_tag+" not Found","received_date":"...","mac_address":"..."})
-            break
-        if( found is False):
-            ans.append({"sales_order_number":"...","service_tag_filename":"Service Tag - "+ser_tag+" Not Found","received_date":"...","mac_address":"..."})
 
+                            # remove the file if it is not the required one
+                            os.remove(f_path)
+                    if(zip_found is True):
+                        break
+                if(zip_found is False):
+                    ans.append({"sales_order_number":"...","service_tag_filename":"Service Tag - "+id+".zip Not Found","received_date":"...","mac_address":"..."})
+    
+    seconds = timer() - timer_start
+    print("time taken:",seconds)
     return ans
+    
