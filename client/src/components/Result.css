@@ -7,9 +7,9 @@ table {
     border-radius:25px;
     width: 900px;
     /* border-radius: 50px; */
-background: #4a6ba1;
-/* for dark mode */
-box-shadow:  20px 2px 18px #3f5b89,
+    background: #4a6ba1;
+    /* for dark mode */
+    box-shadow:  20px 2px 18px #3f5b89,
              -20px -20px 28px #557bb9; 
              overflow: hidden;
     color: white;

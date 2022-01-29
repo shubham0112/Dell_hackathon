@@ -39,7 +39,7 @@ def parse_xml_file(f_path,id):
     temp={"sales_order_number":"None",
         "mac_address":"None",
         "received_date":"None",
-        "service_tag_filename":"None"
+        "service_tag_filename":"None",
     }
 
     found=False
@@ -119,6 +119,7 @@ def helper(zip_arr):
                             # find approach
                             temp,found = parse_xml_file(f_path,id)
                             if found:
+                                temp["found"]="true"
                                 ans.append(temp)
                                 break
 
@@ -127,7 +128,7 @@ def helper(zip_arr):
                     if(zip_found is True):
                         break
                 if(zip_found is False):
-                    ans.append({"sales_order_number":"...","service_tag_filename":"Service Tag - "+id+".zip Not Found","received_date":"...","mac_address":"..."})
+                    ans.append({"sales_order_number":"...","service_tag_filename":"Service Tag - "+id+".zip Not Found","received_date":"...","mac_address":"...","found":"false"})
     
     seconds = timer() - timer_start
     print("time taken:",seconds)

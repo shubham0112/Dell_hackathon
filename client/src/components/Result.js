@@ -22,7 +22,7 @@ const Result = ({output}) => {
 
   const tableInstance=useTable({
     columns:columns,
-    data:output
+    data:output,
   })
 
   // these are functions and arrays provided by useTable hook
@@ -43,38 +43,56 @@ const Result = ({output}) => {
           <table {...getTableProps()} >
             <Zoom center>
               <thead>
-                {headerGroups.map((headerGroup)=>(
-                  <tr {...headerGroup.getHeaderGroupProps()} >
+                {headerGroups.map((headerGroup,i)=>(
+                  <tr {...headerGroup.getHeaderGroupProps()} key={i} >
                     {
-                      headerGroup.headers.map((column)=>(
-                        <th {...column.getHeaderProps()} >{column.render('Header')}</th>
-                      ))
+                      headerGroup.headers.map((column,i)=>{
+                        // console.log(column)
+                        if(column['Header']==="Found"){
+                          return <></>
+                        }
+                        return <th {...column.getHeaderProps()} key={i} >{column.render('Header')}</th>
+                      })
                     }
                   </tr>
                 ))}
               </thead>
-          </Zoom>
-          <tbody {...getTableBodyProps()} >
-            {
-              rows.map((row)=>{
-                prepareRow(row)
-                return (
-                  <Fade left>
-                      <tr {...row.getRowProps()} >
-                      {
-                        row.cells.map((cell)=>{
-                          return <td {...cell.getCellProps()} >{cell.render('Cell')}</td>
-                        })
-                      }
-                    </tr>
-                  </Fade>
-                )
-              })
-            }
-          </tbody>
-        </table> 
+            </Zoom>
+            <tbody {...getTableBodyProps()} >
+              {
+                rows.map((row,i)=>{
+                  prepareRow(row)
+
+                  let make_red=false
+                  if(row['values']['found']==='false'){
+                    make_red=true;
+                  }
+                  // console.log(row['values']['found']);
+                  // console.log(make_red);
+
+                  return (
+                    <Fade left key={i} >
+                        <tr {...row.getRowProps()} style={make_red && {background: "#c93347"}} key={i} >
+                        {
+                          row.cells.map((cell,i)=>{
+                            // console.log(cell['column']['Header']);
+                            if(cell['column']['Header']==="Found"){
+                              return <></>
+                            }
+                            return <>
+                              <td {...cell.getCellProps()} key={i} >{cell.render('Cell')}</td>
+                            </>
+                          })
+                        }
+                      </tr>
+                    </Fade>
+                  )
+                })
+              }
+            </tbody>
+          </table> 
       </Fade>
-   </div>
+    </div>
   </>
 }
 
