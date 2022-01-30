@@ -1,8 +1,9 @@
 from flask import Flask
 from flask_cors import CORS
 from flask import request
-
+from deleteFiles import deleteFiles
 from helpers import helper
+from deleteFiles import deleteFiles
 
 app = Flask(__name__)
 
@@ -14,7 +15,9 @@ def members():
     # val is list
     val=request.json
 
-    ans=helper(val)
+    if( val[1] == 0 ):
+        deleteFiles()
+    ans=helper(val[0])
 
     return {
         # "data": [ {"sales_order_number":"1234","service_tag_filename":"293uhru.zip","received_date":"random","mac_address":"afa49220"},{"sales_order_number":"1","service_tag_filename":"2u4ru.zip","received_date":"arg","mac_address":"ajfn88"},{"sales_order_number":"1","service_tag_filename":"2u4ru.zip","received_date":"arg","mac_address":"ajfn88"}] 
