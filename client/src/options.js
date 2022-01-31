@@ -124,7 +124,7 @@ export const options = {
       type: "circle",
       stroke: {
         width: 7,
-        color: "#29299d"
+        color: "0c45ad"
       },
       polygon: {
         nb_sides: 100
@@ -157,14 +157,14 @@ export const options = {
     },
     line_linked: {
       enable: true,
-      distance: 85.11985930952699,
-      color: "#29299d",
+      distance: 70.11985930952699,
+      color: "#0c45ad",
       opacity: 3.4,
       width: 3
     },
     move: {
       enable: true,
-      speed: 6,
+      speed: 3,
       direction: "none",
       random: false,
       straight: false,
@@ -192,13 +192,13 @@ export const options = {
     },
     modes: {
       grab: {
-        distance: 400,
+        distance: 100,
         line_linked: {
           opacity: 100
         }
       },
       bubble: {
-        distance: 100,
+        distance: 10,
         size: 40,
         duration: 2,
         opacity: 8,

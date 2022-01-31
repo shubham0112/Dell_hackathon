@@ -11,10 +11,11 @@ const Form = () => {
     const [output,setOutput]=useState([]);
     const [flag,setFlag]=useState(false);
     const [isLoading,setIsLoading]=useState(false);
+    const [a,setA] = useState(0)
 
     const handleSubmit=(e)=>{
         e.preventDefault();
-        
+        setA(a+1)
         setIsLoading(true);
         // call backend
         fetch('/members',{
@@ -22,7 +23,7 @@ const Form = () => {
             headers : {
                 'Content-Type':'application/json'
             },
-            body:JSON.stringify(val),
+            body:JSON.stringify([val,a]),
         })
         .then(response => response.json())
         .then(data => {
