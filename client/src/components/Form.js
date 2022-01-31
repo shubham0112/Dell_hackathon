@@ -2,38 +2,42 @@ import React,{useState} from 'react';
 import Result from './Result';
 import Loader from './Loader';
 import './Form.css';
-import { FaTrashAlt } from "react-icons/fa";
 import Zoom from 'react-reveal/Zoom';
 import Fade from 'react-reveal/Fade';
+import Particles from "react-tsparticles";
+import { options } from "../options";
 
 const Form = () => {
     const [val,setVal]=useState([]);
     const [output,setOutput]=useState([]);
     const [flag,setFlag]=useState(false);
     const [isLoading,setIsLoading]=useState(false);
+    const [dp,setDp]=useState([]);
 
     const handleSubmit=(e)=>{
+        // prevent auto refresh 
         e.preventDefault();
         
         setIsLoading(true);
+
         // call backend
         fetch('/members',{
             method:'POST',
             headers : {
                 'Content-Type':'application/json'
             },
-            body:JSON.stringify(val),
+            body:JSON.stringify([val,dp]),
         })
         .then(response => response.json())
         .then(data => {
-            // console.log('Success:', data['data']);
-
+            console.log(data);
             setIsLoading(false);
             setOutput(data['data']);
-            // console.log('Success2:', output);
+            setDp(data['dp']);
         })
         .catch((error) => {
             console.error('Error:', error);
+            alert("Error in fetching data from backend")
         });
 
         // display output
@@ -43,6 +47,7 @@ const Form = () => {
         setVal([]);
         setFlag(false);
         setIsLoading(false);
+        // setDp([]);
     }
     return ( 
         <>
@@ -78,8 +83,13 @@ const Form = () => {
                 </div>
             </form>
 
+
             {
-                isLoading && <Loader/>
+                (!flag || isLoading) && <Particles options={options} id="tsparticles" />
+            }
+
+            {
+                isLoading && <Loader />
             }
 
             {

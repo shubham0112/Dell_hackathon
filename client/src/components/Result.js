@@ -3,22 +3,19 @@ import {useTable} from "react-table";
 import {COLUMNS} from "./columns.js";
 // import MOCK_DATA from "../MOCK_DATA.json";
 import "./Result.css"
-import styled, { keyframes } from 'styled-components';
-import { bounce } from 'react-animations';
+// import styled, { keyframes } from 'styled-components';
+// import { bounce } from 'react-animations';
 import Zoom from 'react-reveal/Zoom';
 import Fade from 'react-reveal/Fade';
  
-const bounceAnimation = keyframes`${bounce}`;
+// const bounceAnimation = keyframes`${bounce}`;
  
-const BouncyDiv = styled.div`
-  animation: 1s ${bounceAnimation};
-`;
+// const BouncyDiv = styled.div`
+//   animation: 1s ${bounceAnimation};
+// `;
 
 const Result = ({output}) => {
-  // console.log("inside result.js",output);
-  // const data=useMemo(()=>output,[]);
   const columns=useMemo(()=>COLUMNS,[]);
-  // console.log("inside result.js",data);
 
   const tableInstance=useTable({
     columns:columns,

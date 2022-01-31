@@ -13,13 +13,16 @@ CORS(app)
 def members():
     # val is list
     val=request.json
+    # print(val[1])
 
-    ans=helper(val)
+    # val[0] => zip_arr, 
+    # val[1] => dp
+    [ans,dp]=helper(val[0],val[1])
 
     return {
         # "data": [ {"sales_order_number":"1234","service_tag_filename":"293uhru.zip","received_date":"random","mac_address":"afa49220"},{"sales_order_number":"1","service_tag_filename":"2u4ru.zip","received_date":"arg","mac_address":"ajfn88"},{"sales_order_number":"1","service_tag_filename":"2u4ru.zip","received_date":"arg","mac_address":"ajfn88"}] 
 
-        "data":ans
+        "data":ans,"dp":dp
     }
 
 if __name__ == "__main__":

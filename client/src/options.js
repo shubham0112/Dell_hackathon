@@ -111,11 +111,11 @@
 export const options = {
   particles: {
     number: {
-      value: 106,
+      value: 106, //106
       density: {
         enable: true,
-        value_area: 800
-      }
+        value_area: 1500 //800
+      },
     },
     color: {
       value: "#3a20b6"
@@ -140,7 +140,7 @@ export const options = {
       random: false,
       anim: {
         enable: false,
-        speed: 1.24,
+        speed: 1.24, //1.24
         opacity_min: 0.1,
         sync: false
       }
@@ -164,7 +164,7 @@ export const options = {
     },
     move: {
       enable: true,
-      speed: 6,
+      speed: 6,//6
       direction: "none",
       random: false,
       straight: false,

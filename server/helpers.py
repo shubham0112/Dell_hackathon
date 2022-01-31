@@ -67,17 +67,34 @@ def parse_xml_file(f_path,id):
     return temp,found
 
 
-def helper(zip_arr):
+
+def helper(zip_arr,dp):
     
     zFiles_path = r"F:/ZipFiles"
     par_dir = r"F:/DELL-RAW"
     ans=[]
 
     timer_start = timer()
+
+    # print(dp)
     
     for root,dirs,files in os.walk(zFiles_path):
             for id in zip_arr:
+                temp={}
                 zip_found = False
+                # print(dp)
+                for item in dp:
+                    # print("item=",item)
+                    if len(item) and item['service_tag_filename']==id:
+                        print("working")
+                        temp=item
+                        break
+                if len(temp):
+                    zip_found=True
+                    temp["found"]="true"
+                    ans.append(temp)
+                    # print("working")
+                    continue
                 for file in files:
                     
                     #file: Zip file(inside Main zip files folder)  name with extension .zip
@@ -119,6 +136,7 @@ def helper(zip_arr):
                             # find approach
                             temp,found = parse_xml_file(f_path,id)
                             if found:
+                                dp.append(temp)
                                 temp["found"]="true"
                                 ans.append(temp)
                                 break
@@ -132,5 +150,5 @@ def helper(zip_arr):
     
     seconds = timer() - timer_start
     print("time taken:",seconds)
-    return ans
+    return [ans,dp]
     
