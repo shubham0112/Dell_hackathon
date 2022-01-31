@@ -11,9 +11,7 @@ CORS(app)
 # Routes
 @app.route("/members",methods=['POST'])
 def members():
-    # val is list
     val=request.json
-    # print(val[1])
 
     # if( val[1] == 0 ):
     #     deleteFiles()

@@ -209,7 +209,7 @@ def helper(zip_arr,dp):
             # print(data)
             temp,found = parse_xml_file_elementTree(data,id)
             if found:
-                '''
+                dp.append(temp)
                 temp["found"]="true"
                 ans.append(temp)
                 #if it's an XML File
@@ -223,13 +223,6 @@ def helper(zip_arr,dp):
                 #To read each file, first extraction is needed to each folder
                 with source, target:
                     shutil.copyfileobj(source, target) #extraction
-                write_File(id,temp)
-                print("File found: ", id)
-                break
-                '''
-                dp.append(temp)
-                temp["found"]="true"
-                ans.append(temp)
                 break
 
     seconds = timer() - timer_start
