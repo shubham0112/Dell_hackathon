@@ -205,7 +205,7 @@ def helper(zip_arr):
                 with source, target:
                     shutil.copyfileobj(source, target) #extraction
                 write_File(id,temp)
-                print("IDHAR NAHI AYEGA")
+                print("File found: ", id)
                 break
 
     seconds = timer() - timer_start
