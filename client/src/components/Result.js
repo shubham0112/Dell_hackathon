@@ -8,11 +8,7 @@ import "./Result.css"
 import Zoom from 'react-reveal/Zoom';
 import Fade from 'react-reveal/Fade';
  
-// const bounceAnimation = keyframes`${bounce}`;
- 
-// const BouncyDiv = styled.div`
-//   animation: 1s ${bounceAnimation};
-// `;
+
 
 const Result = ({output}) => {
   const columns=useMemo(()=>COLUMNS,[]);

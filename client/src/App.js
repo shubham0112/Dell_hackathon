@@ -4,8 +4,6 @@ import './styles.css'
 import './App.css'
 // import Particles from "react-tsparticles";
 // import { options } from "./options.js";
-import styled, { keyframes } from "styled-components";
-import { wobble } from "react-animations";
 
 export default function App() {
   
