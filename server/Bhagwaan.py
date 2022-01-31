@@ -177,45 +177,50 @@ def helper(zip_arr):
                                 continue
                             
                             # #LXML METHOD
-                            # #if it's an XML File
-                            # #path: path of new folders created with their respective names(ID named folders) 
-                            # path = os.path.join(par_dir, id).replace('\\','/')
-                            # os.makedirs(path,exist_ok=True)
-                            # source = zip.open(member)
-                            # f_path = os.path.join(path,filename).replace('\\','/')
-                            # target = open(f_path, "wb")
+                            #if it's an XML File
+                            #path: path of new folders created with their respective names(ID named folders) 
+                            path = os.path.join(par_dir, id).replace('\\','/')
+                            os.makedirs(path,exist_ok=True)
+                            source = zip.open(member)
+                            f_path = os.path.join(path,filename).replace('\\','/')
+                            target = open(f_path, "wb")
                         
-                            # #To read each file, first extraction is needed to each folder
-                            # with source, target:
-                            #     shutil.copyfileobj(source, target) #extraction
-                            # #Content Reading inside each file
-                            # # find approach
-                            # temp,found = parse_xml_file(f_path,id)
-                            
-                            # ELEMENT TREE METHOD
-                            f = zip.open(member)
-                            # here you do your magic with [f] : parsing, etc.
-                            # this will print out file contents
-                            data = f.read()
-                            # print(data)
-                            temp,found = parse_xml_file_elementTree(data,id)
+                            #To read each file, first extraction is needed to each folder
+                            with source, target:
+                                shutil.copyfileobj(source, target) #extraction
+                            #Content Reading inside each file
+                            # find approach
+                            temp,found = parse_xml_file(f_path,id)
                             if found:
                                 temp["found"]="true"
                                 ans.append(temp)
-                                #if it's an XML File
-                                #path: path of new folders created with their respective names(ID named folders) 
-                                path = os.path.join(par_dir, id).replace('\\','/')
-                                os.makedirs(path,exist_ok=True)
-                                source = zip.open(member)
-                                f_path = os.path.join(path,filename).replace('\\','/')
-                                target = open(f_path, "wb")
-                            
-                                #To read each file, first extraction is needed to each folder
-                                with source, target:
-                                    shutil.copyfileobj(source, target) #extraction
-                                write_File(id,temp)
-                                print("IDHAR NAHI AYEGA")
                                 break
+                            
+                            # ELEMENT TREE METHOD
+                            # f = zip.open(member)
+                            # # here you do your magic with [f] : parsing, etc.
+                            # # this will print out file contents
+                            # data = f.read()
+                            # # print(data)
+                            # temp,found = parse_xml_file_elementTree(data,id)
+                            # if found:
+                            #     temp["found"]="true"
+                            #     ans.append(temp)
+                            #     #if it's an XML File
+                            #     #path: path of new folders created with their respective names(ID named folders) 
+                            #     path = os.path.join(par_dir, id).replace('\\','/')
+                            #     os.makedirs(path,exist_ok=True)
+                            #     source = zip.open(member)
+                            #     f_path = os.path.join(path,filename).replace('\\','/')
+                            #     target = open(f_path, "wb")
+                            
+                            #     #To read each file, first extraction is needed to each folder
+                            #     with source, target:
+                            #         shutil.copyfileobj(source, target) #extraction
+                            #     write_File(id,temp)
+                            #     print("IDHAR NAHI AYEGA")
+                            #     break
+                            os.remove(f_path)
                     if(zip_found is True):
                         break
                 if(zip_found is False):

@@ -15,12 +15,7 @@ def members():
     val=request.json
     # print(val[1])
 
-    # if( val[1] == 0 ):
-    #     deleteFiles()
-    # ans=helper(val[0])
-
-    # val[0] => zip_arr, 
-    # val[1] => dp
+   
     [ans,dp]=helper(val[0],val[1])
 
     return {
