@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from flask import request
-
+# from deleteFiles import deleteFiles
 from helpers import helper
 
 app = Flask(__name__)
@@ -14,6 +14,10 @@ def members():
     # val is list
     val=request.json
     # print(val[1])
+
+    # if( val[1] == 0 ):
+    #     deleteFiles()
+    # ans=helper(val[0])
 
     # val[0] => zip_arr, 
     # val[1] => dp
