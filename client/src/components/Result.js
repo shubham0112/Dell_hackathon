@@ -4,7 +4,7 @@ import {COLUMNS} from "./columns.js";
 import "./Result.css"
 import Zoom from 'react-reveal/Zoom';
 import Fade from 'react-reveal/Fade';
-
+ 
 const Result = ({output}) => {
   const columns=useMemo(()=>COLUMNS,[]);
 

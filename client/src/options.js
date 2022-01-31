@@ -47,7 +47,7 @@ export const options = {
     },
     line_linked: {
       enable: true,
-      distance: 70.11985930952699,
+      distance: 85.11985930952699,
       color: "#0c45ad",
       opacity: 3.4,
       width: 3

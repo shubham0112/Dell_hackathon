@@ -169,6 +169,7 @@ def helper(zip_arr,dp):
         zip_path = os.path.join(zFiles_path, id + ".zip").replace('\\','/')
         zipfile_exists = exists(zip_path)
         
+        # //a.ziD:Zipfolder/2.zip-->a,b,file.xml
         if zipfile_exists is False:
             ans.append({"sales_order_number":"...","service_tag_filename":"Service Tag - "+id+".zip Not Found","received_date":"...","mac_address":"...","found":"false"})
             continue
@@ -176,18 +177,19 @@ def helper(zip_arr,dp):
         #zip: name required to enter into a particular zip file
         zip = zipfile.ZipFile(zip_path)
         for member in zip.namelist():
-            
+            # a/1/users/documents/
+            # a/1/users/file1.xml
             #member: absolute file path from the found zip file upto the subdirectory / file inside that zip
             #filename: Name of the XML file
             filename = os.path.basename(member)
-            
+            # member = .../users/
+            # member = .../file.xml
             #skip directories
             if not filename:
                 continue
-            
-            # #LXML METHOD
-            # #if it's an XML File
-            # #path: path of new folders created with their respective names(ID named folders) 
+            #LXML METHOD
+            #if it's an XML File
+            #path: path of new folders created with their respective names(ID named folders) 
             # path = os.path.join(par_dir, id).replace('\\','/')
             # os.makedirs(path,exist_ok=True)
             # source = zip.open(member)
@@ -200,12 +202,16 @@ def helper(zip_arr,dp):
             # #Content Reading inside each file
             # # find approach
             # temp,found = parse_xml_file(f_path,id)
-            
+            # if found:
+            #     dp.append(temp)
+            #     temp["found"]="true"
+            #     ans.append(temp)
+            #     break
             # ELEMENT TREE METHOD
-            f = zip.open(member)
+            file = zip.open(member)
             # here you do your magic with [f] : parsing, etc.
             # this will print out file contents
-            data = f.read()
+            data = file.read()
             # print(data)
             temp,found = parse_xml_file_elementTree(data,id)
             if found:
@@ -219,11 +225,12 @@ def helper(zip_arr,dp):
                 source = zip.open(member)
                 f_path = os.path.join(path,filename).replace('\\','/')
                 target = open(f_path, "wb")
-            
                 #To read each file, first extraction is needed to each folder
                 with source, target:
                     shutil.copyfileobj(source, target) #extraction
+                print("File found: ", id)
                 break
+            # os.remove(f_path)
 
     seconds = timer() - timer_start
     print("time taken:",seconds)
