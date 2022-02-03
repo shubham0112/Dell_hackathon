@@ -18,12 +18,6 @@ for subfolder_name in subfolder_names:
         # creating files
         for j in range(1,10):
             completeName=os.path.join(path,str(j)+'.xml')
-
-            # file1 = open(completeName, "w")
-            # file1.write("file information")
-            # file1.close()
-
-            # shutil.copyfile('F:\file.xml',completeName)
             
             # open both files
             with open('F:\sample.xml','r') as firstfile, open(completeName,'w') as secondfile:
@@ -42,4 +36,3 @@ for subfolder_name in subfolder_names:
             secondfile.close()
 
         i=i+1
-

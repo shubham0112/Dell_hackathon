@@ -2,13 +2,11 @@ import os
 from pickle import FALSE
 import shutil
 import zipfile
-# from bs4 import BeautifulSoup 
+from bs4 import BeautifulSoup
 from lxml import etree
 from timeit import default_timer as timer
 from os.path import exists
 import xml.etree.ElementTree as ET
-import json
-# data = {}
 
 par_dir = r"F:/DELL-RAW"
 
@@ -102,38 +100,6 @@ def parse_xml_file(f_path,id):
         temp["received_date"]=val.text
         
     return temp,found
-
-def write_File(id,temp):
-    
-    data = {}
-    service_tag = temp["service_tag_filename"]
-    sales_ordno = temp["sales_order_number"]
-    received_date = temp["received_date"]
-    mac_add = temp["mac_address"]
-    data[id] = [service_tag, sales_ordno, received_date, mac_add]
-    json_file = id + ".json"
-    json_path = os.path.join(par_dir,json_file).replace("\\",'/')
-    with open(json_path, "w") as f:
-        json.dump(data, f)
-    
-def search(id):
-    temp={"sales_order_number":"None",
-        "mac_address":"None",
-        "received_date":"None",
-        "service_tag_filename":"None",
-    }
-    json_file = id + ".json"
-    json_path = os.path.join(par_dir,json_file).replace("\\",'/')
-    file_exists = exists(json_path)
-    if( file_exists is True):
-        with open(json_path, 'r') as f:
-            data = json.load(f)
-            temp["service_tag_filename"]=data[id][0]
-            temp["sales_order_number"]=data[id][1]
-            temp["mac_address"]=data[id][3]
-            temp["received_date"]=data[id][2]
-        return temp,True
-    return [],False
     
 def helper(zip_arr,dp):
     
@@ -141,29 +107,17 @@ def helper(zip_arr,dp):
     ans=[]
 
     timer_start = timer()
-
-    # print(dp)
     
     for id in zip_arr:
-        # storing in json file approach
-        # temp,found = search(id)
-        # if found:
-        #     temp["found"]="true"
-        #     ans.append(temp)
-        #     continue
-
-        # print(dp)
+        # checking whether it is present in dp or not
         temp={}
         for item in dp:
-            # print("item=",item)
             if len(item) and item['service_tag_filename']==id:
-                # print("working")
                 temp=item
                 break
         if len(temp):
             temp["found"]="true"
             ans.append(temp)
-            # print("working")
             continue
 
         zip_path = os.path.join(zFiles_path, id + ".zip").replace('\\','/')
@@ -187,6 +141,7 @@ def helper(zip_arr,dp):
             #skip directories
             if not filename:
                 continue
+
             #LXML METHOD
             #if it's an XML File
             #path: path of new folders created with their respective names(ID named folders) 
@@ -207,12 +162,12 @@ def helper(zip_arr,dp):
             #     temp["found"]="true"
             #     ans.append(temp)
             #     break
+
             # ELEMENT TREE METHOD
             file = zip.open(member)
             # here you do your magic with [f] : parsing, etc.
             # this will print out file contents
             data = file.read()
-            # print(data)
             temp,found = parse_xml_file_elementTree(data,id)
             if found:
                 dp.append(temp)
@@ -228,7 +183,6 @@ def helper(zip_arr,dp):
                 #To read each file, first extraction is needed to each folder
                 with source, target:
                     shutil.copyfileobj(source, target) #extraction
-                print("File found: ", id)
                 break
             # os.remove(f_path)
 

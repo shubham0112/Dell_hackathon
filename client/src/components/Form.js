@@ -13,12 +13,10 @@ const Form = () => {
     const [flag,setFlag]=useState(false);
     const [isLoading,setIsLoading]=useState(false);
     const [dp,setDp]=useState([]);
-    // const [a,setA] = useState(0)
 
     const handleSubmit=(e)=>{
         // prevent auto refresh 
         e.preventDefault();
-        // setA(a+1)
         setIsLoading(true);
 
         // call backend
@@ -27,7 +25,6 @@ const Form = () => {
             headers : {
                 'Content-Type':'application/json'
             },
-            // body:JSON.stringify([val,a]),
             body:JSON.stringify([val,dp]),
         })
         .then(response => response.json())
@@ -48,7 +45,6 @@ const Form = () => {
         setVal([]);
         setFlag(false);
         setIsLoading(false);
-        // setDp([]);
     }
     return ( 
         <>
