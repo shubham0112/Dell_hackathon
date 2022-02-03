@@ -10,5 +10,9 @@ export const COLUMNS = [{
   },{  
     Header: 'Mac Address',  
     accessor: 'mac_address'  
+  },
+  {  
+    Header: 'Found',  
+    accessor: 'found'  
   }
 ]

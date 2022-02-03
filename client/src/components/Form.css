@@ -71,6 +71,10 @@ body, html {
     transform: translate(-1px, -1px);    
 }
 
+.Icon:hover{
+  cursor: pointer;
+}
+
 label,.clear{
   font-family: "Hind", sans-serif;
   display: block;
@@ -93,7 +97,7 @@ label {
 }
 .clear {
   margin-top: 1rem;
-  margin-left: 1rem;
+  margin-right: 1rem;
   font-size: 1rem;
   cursor: pointer;
 }
@@ -116,13 +120,13 @@ input {
   width: 100%;
 }
 input::placeholder {
-color: #6d7f8f;
+  color: #6d7f8f;
 }
 
 input:focus {
-outline: none;
-color: #6d7f8f;
-background-color: lighten(#e3edf7, 3%);
+  outline: none;
+  color: #6d7f8f;
+  background-color: lighten(#e3edf7, 3%);
 }
 
 .InputContainer {
@@ -136,20 +140,20 @@ background-color: lighten(#e3edf7, 3%);
   
 .InputContainer:before,
 .InputContainer:after {
-left: 0;
-top: 0;
-display: block;
-content: "";
-pointer-events: none;
-width: 100%;
-height: 100%;
-position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  content: "";
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
 }
 
 .InputContainer:before {
-box-shadow: var(--bottom-shadow);
+  box-shadow: var(--bottom-shadow);
 }
   
 .InputContainer:after {
-box-shadow: var(--top-shadow);
+  box-shadow: var(--top-shadow);
 }
