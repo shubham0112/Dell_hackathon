@@ -2,7 +2,7 @@ import os
 from pickle import FALSE
 import shutil
 import zipfile
-from bs4 import BeautifulSoup 
+# from bs4 import BeautifulSoup 
 from lxml import etree
 
 def helper(zip_arr):
