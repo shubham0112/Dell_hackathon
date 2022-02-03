@@ -1,7 +1,7 @@
 export const options = {
   particles: {
     number: {
-      value: 106, 
+      value: 106,
       density: {
         enable: true,
         value_area: 1500 //800
